@@ -6,35 +6,54 @@ import {
 } from "../redux/actions";
 
 const ProductList = () => {
-  const { products } = useSelector((state) => state);
   const dispatch = useDispatch();
+
+  const products = useSelector(
+    (state) => state.products
+  );
 
   return (
     <div>
-      <h2>Products</h2>
+      <h2>All Products</h2>
 
-      {products.map((product) => (
-        <div key={product.id}>
-          <h4>{product.name}</h4>
-          <p>₹{product.price}</p>
-
-          <button
-            onClick={() =>
-              dispatch(addToCart(product))
-            }
+      <div className="products-grid">
+        {products.map((product) => (
+          <div
+            key={product.id}
+            className="custom-card card"
           >
-            Add to Cart
-          </button>
+            <div className="card-body">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="product-image" width={100}
+              />
 
-          <button
-            onClick={() =>
-              dispatch(addToWishlist(product))
-            }
-          >
-            Wishlist
-          </button>
-        </div>
-      ))}
+              <h5>{product.name}</h5>
+
+              <p>₹ {product.price}</p>
+
+              <button
+                className="btn btn-primary"
+                onClick={() =>
+                  dispatch(addToCart(product))
+                }
+              >
+                Add To Cart
+              </button>
+
+              <button
+                className="btn"
+                onClick={() =>
+                  dispatch(addToWishlist(product))
+                }
+              >
+                Wishlist
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

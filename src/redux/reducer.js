@@ -1,28 +1,55 @@
 const initialState = {
   products: [
-    { id: 1, name: "Laptop", price: 50000 },
-    { id: 2, name: "Phone", price: 25000 },
-    { id: 3, name: "Headphones", price: 5000 },
+    {
+      id: 1,
+      name: "Blue Denim Shirt",
+      price: 1799,
+      image:
+        "https://images.unsplash.com/photo-1603252109303-2751441dd157",
+    },
+    {
+      id: 2,
+      name: "Red Hoodie",
+      price: 3599,
+      image:
+        "https://images.unsplash.com/photo-1556821840-3a63f95609a7",
+    },
+    {
+      id: 3,
+      name: "Navy T-Shirt",
+      price: 1599,
+      image:
+        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab",
+    },
+    {
+      id: 4,
+      name: "Black Chino Pants",
+      price: 6999,
+      image:
+        "https://images.unsplash.com/photo-1473966968600-fa801b869a1",
+    },
   ],
   cart: [],
   wishlist: [],
-  discount: 0,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-
     case "ADD_TO_CART":
-      const existingItem = state.cart.find(
+      const exists = state.cart.find(
         (item) => item.id === action.payload.id
       );
 
-      if (existingItem) {
+      if (exists) {
         return {
           ...state,
           cart: state.cart.map((item) =>
             item.id === action.payload.id
-              ? { ...item, quantity: item.quantity + 1 }
+              ? {
+                  ...item,
+                  quantity:
+                    item.quantity + 1,
+                }
               : item
           ),
         };
@@ -30,14 +57,21 @@ const reducer = (state = initialState, action) => {
 
       return {
         ...state,
-        cart: [...state.cart, { ...action.payload, quantity: 1 }],
+        cart: [
+          ...state.cart,
+          {
+            ...action.payload,
+            quantity: 1,
+          },
+        ],
       };
 
     case "REMOVE_FROM_CART":
       return {
         ...state,
         cart: state.cart.filter(
-          (item) => item.id !== action.payload
+          (item) =>
+            item.id !== action.payload
         ),
       };
 
@@ -46,7 +80,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         cart: state.cart.map((item) =>
           item.id === action.payload
-            ? { ...item, quantity: item.quantity + 1 }
+            ? {
+                ...item,
+                quantity:
+                  item.quantity + 1,
+              }
             : item
         ),
       };
@@ -58,10 +96,10 @@ const reducer = (state = initialState, action) => {
           item.id === action.payload
             ? {
                 ...item,
-                quantity:
-                  item.quantity > 1
-                    ? item.quantity - 1
-                    : 1,
+                quantity: Math.max(
+                  item.quantity - 1,
+                  1
+                ),
               }
             : item
         ),
@@ -70,22 +108,20 @@ const reducer = (state = initialState, action) => {
     case "ADD_TO_WISHLIST":
       return {
         ...state,
-        wishlist: [...state.wishlist, action.payload],
+        wishlist: [
+          ...state.wishlist,
+          action.payload,
+        ],
       };
 
     case "REMOVE_FROM_WISHLIST":
       return {
         ...state,
-        wishlist: state.wishlist.filter(
-          (item) => item.id !== action.payload
-        ),
-      };
-
-    case "APPLY_COUPON":
-      return {
-        ...state,
-        discount:
-          action.payload === "SAVE10" ? 10 : 0,
+        wishlist:
+          state.wishlist.filter(
+            (item) =>
+              item.id !== action.payload
+          ),
       };
 
     default:

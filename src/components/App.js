@@ -6,11 +6,15 @@ import Wishlist from "./Wishlist";
 function App() {
   return (
     <div>
-      <h1>Shopping Cart</h1>
+      <nav className="navbar navbar-expand-lg">
+        <h3 className="text-center">Shopping Cart</h3>
+      </nav>
 
-      <ProductList />
-      <Cart />
-      <Wishlist />
+      <div className="container">
+        <ProductList />
+        <Cart />
+        <Wishlist />
+      </div>
     </div>
   );
 }

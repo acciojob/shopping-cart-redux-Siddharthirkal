@@ -8,76 +8,61 @@ import {
 } from "../redux/actions";
 
 const Cart = () => {
-  const { cart, discount } = useSelector(
-    (state) => state
-  );
-
   const dispatch = useDispatch();
-  const [coupon, setCoupon] = useState("");
 
-  const total = cart.reduce(
-    (sum, item) =>
-      sum + item.price * item.quantity,
-    0
+  const cart = useSelector(
+    (state) => state.cart
   );
-
-  const finalTotal =
-    total - (total * discount) / 100;
 
   return (
     <div>
       <h2>Cart</h2>
 
       {cart.map((item) => (
-        <div key={item.id}>
-          <h4>{item.name}</h4>
+        <div
+          key={item.id}
+          className="custom-card"
+        >
+          <div className="card-body">
+            <h5>{item.name}</h5>
 
-          <button
-            onClick={() =>
-              dispatch(decreaseQuantity(item.id))
-            }
-          >
-            -
-          </button>
+            <p>Quantity: {item.quantity}</p>
 
-          {item.quantity}
+            <button
+              className="btn"
+              onClick={() =>
+                dispatch(
+                  increaseQuantity(item.id)
+                )
+              }
+            >
+              +
+            </button>
 
-          <button
-            onClick={() =>
-              dispatch(increaseQuantity(item.id))
-            }
-          >
-            +
-          </button>
+            <button
+              className="btn"
+              onClick={() =>
+                dispatch(
+                  decreaseQuantity(item.id)
+                )
+              }
+            >
+              -
+            </button>
 
-          <button
-            onClick={() =>
-              dispatch(removeFromCart(item.id))
-            }
-          >
-            Remove
-          </button>
+            <button
+              className="btn btn-danger"
+              onClick={() =>
+                dispatch(
+                  removeFromCart(item.id)
+                )
+              }
+            >
+              Remove
+            </button>
+          </div>
         </div>
       ))}
-
-      <input
-        type="text"
-        placeholder="Coupon"
-        value={coupon}
-        onChange={(e) =>
-          setCoupon(e.target.value)
-        }
-      />
-
-      <button
-        onClick={() =>
-          dispatch(applyCoupon(coupon))
-        }
-      >
-        Apply Coupon
-      </button>
-
-      <h3>Total: ₹{finalTotal}</h3>
     </div>
   );
 };
