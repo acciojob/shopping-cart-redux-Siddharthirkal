@@ -1,13 +1,18 @@
-
 import React from "react";
-import './../styles/App.css';
+import ProductList from "./ProductList";
+import Cart from "./Cart";
+import Wishlist from "./Wishlist";
 
-const App = () => {
+function App() {
   return (
     <div>
-        {/* Do not remove the main div */}
+      <h1>Shopping Cart</h1>
+
+      <ProductList />
+      <Cart />
+      <Wishlist />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
